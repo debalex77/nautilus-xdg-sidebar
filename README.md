@@ -11,6 +11,9 @@ The patch restores the following locations as built-in sidebar entries:
 
 Unlike bookmarks, these locations behave as native sidebar entries.
 
+<img width="637" height="99" alt="2026-07-15_21-43" src="https://github.com/user-attachments/assets/d6b00bb7-6055-4983-98d9-be81d23b2028" />
+
+
 ## ✨ Features
 Restores XDG user directories as native sidebar locations.
 Adds a new Preferences switch:
