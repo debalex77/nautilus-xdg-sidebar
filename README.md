@@ -17,6 +17,12 @@ Unlike bookmarks, these locations behave as native sidebar entries.
 
 <img width="637" height="99" alt="2026-07-15_21-43" src="https://github.com/user-attachments/assets/d6b00bb7-6055-4983-98d9-be81d23b2028" />
 
+## ⚠️ Disclaimer
+
+This is an unofficial patch for GNOME Files (Nautilus).
+It is not affiliated with, endorsed by, or maintained by the GNOME Project.
+The repository does not redistribute Nautilus source code. During the build process, the official Debian Nautilus source package is downloaded and patched locally.
+
 ## ✨ Features
 Restores XDG user directories as native sidebar locations.
 Adds a new Preferences switch:
@@ -29,7 +35,7 @@ Supported base:
 - Debian 13 (Trixie)
 - Nautilus 48.3-2
 
-## ⚠️ Requirements
+## 📖 Requirements
 
 Enable Debian source repositories (deb-src).
 
