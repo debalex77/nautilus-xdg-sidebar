@@ -1,0 +1,11 @@
+work/
+dist/
+*.deb
+*.build
+*.buildinfo
+*.changes
+*.dsc
+*.tar.*
+*.upload
+*.log
+*~

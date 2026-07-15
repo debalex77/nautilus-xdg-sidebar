@@ -1,0 +1,183 @@
+--- a/data/org.gnome.nautilus.gschema.xml
++++ b/data/org.gnome.nautilus.gschema.xml
+@@ -77,6 +77,11 @@
+   </schema>
+ 
+   <schema path="/org/gnome/nautilus/preferences/" id="org.gnome.nautilus.preferences" gettext-domain="nautilus">
++    <key type="b" name="show-xdg-user-directories">
++      <default>true</default>
++      <summary>Show XDG user directories in the sidebar</summary>
++      <description>Whether Documents, Downloads, Pictures, Music and Videos are shown as built-in locations in the sidebar.</description>
++    </key>
+     <key type="b" name="always-use-location-entry">
+       <default>false</default>
+       <summary>Always use the location entry, instead of the pathbar</summary>
+--- a/src/nautilus-global-preferences.h
++++ b/src/nautilus-global-preferences.h
+@@ -122,6 +122,7 @@
+ /* Context menu options */
+ #define NAUTILUS_PREFERENCES_SHOW_DELETE_PERMANENTLY "show-delete-permanently"
+ #define NAUTILUS_PREFERENCES_SHOW_CREATE_LINK "show-create-link"
++#define NAUTILUS_PREFERENCES_SHOW_XDG_USER_DIRECTORIES "show-xdg-user-directories"
+ 
+ /* Full Text Search enabled */
+ #define NAUTILUS_PREFERENCES_FTS_ENABLED "fts-enabled"
+--- a/src/nautilus-preferences-dialog.c
++++ b/src/nautilus-preferences-dialog.c
+@@ -34,6 +34,8 @@
+ #include "nautilus-global-preferences.h"
+ 
+ /* bool preferences */
++#define NAUTILUS_PREFERENCES_DIALOG_SHOW_XDG_USER_DIRECTORIES_WIDGET           \
++        "show_xdg_user_directories_row"
+ #define NAUTILUS_PREFERENCES_DIALOG_FOLDERS_FIRST_WIDGET                       \
+         "sort_folders_first_row"
+ #define NAUTILUS_PREFERENCES_DIALOG_DELETE_PERMANENTLY_WIDGET                  \
+@@ -349,6 +351,9 @@
+                  (const char *[]) { _("On This Device Only"), _("All Folders"), _("Never"), NULL });
+ 
+     /* setup preferences */
++    bind_builder_bool (builder, nautilus_preferences,
++                       NAUTILUS_PREFERENCES_DIALOG_SHOW_XDG_USER_DIRECTORIES_WIDGET,
++                       NAUTILUS_PREFERENCES_SHOW_XDG_USER_DIRECTORIES);
+     bind_builder_bool (builder, gtk_filechooser_preferences,
+                        NAUTILUS_PREFERENCES_DIALOG_FOLDERS_FIRST_WIDGET,
+                        NAUTILUS_PREFERENCES_SORT_DIRECTORIES_FIRST);
+--- a/src/resources/ui/nautilus-preferences-dialog.ui
++++ b/src/resources/ui/nautilus-preferences-dialog.ui
+@@ -10,6 +10,12 @@
+           <object class="AdwPreferencesGroup">
+             <property name="title" translatable="yes">General</property>
+             <child>
++              <object class="AdwSwitchRow" id="show_xdg_user_directories_row">
++                <property name="title" translatable="yes">Show user folders in the sidebar</property>
++                <property name="subtitle" translatable="yes">Show Documents, Downloads, Pictures, Music and Videos as built-in locations</property>
++              </object>
++            </child>
++            <child>
+               <object class="AdwSwitchRow" id="sort_folders_first_row">
+                 <property name="title" translatable="yes">Sort _Folders Before Files</property>
+                 <property name="use_underline">True</property>
+--- a/src/gtk/nautilusgtkplacessidebar.c
++++ b/src/gtk/nautilusgtkplacessidebar.c
+@@ -518,6 +518,46 @@
+   return g_filename_to_uri (name, NULL, NULL);
+ }
+ 
++static void
++add_user_directory_place (NautilusGtkPlacesSidebar *sidebar,
++                          GUserDirectory             directory,
++                          const char                *label,
++                          const char                *icon_name,
++                          const char                *tooltip)
++{
++  const char *path;
++  char *uri;
++  GIcon *icon;
++
++  path = g_get_user_special_dir (directory);
++
++  /*
++   * An XDG user directory is disabled when it points to the
++   * user's home directory.
++   */
++  if (path == NULL || path_is_home_dir (path))
++    return;
++
++  uri = g_filename_to_uri (path, NULL, NULL);
++  if (uri == NULL)
++    return;
++
++  icon = g_themed_icon_new_with_default_fallbacks (icon_name);
++
++  add_place (sidebar,
++             NAUTILUS_GTK_PLACES_BUILT_IN,
++             NAUTILUS_GTK_PLACES_SECTION_DEFAULT_LOCATIONS,
++             label,
++             icon,
++             NULL,
++             uri,
++             NULL, NULL, NULL, NULL, 0,
++             tooltip);
++
++  g_object_unref (icon);
++  g_free (uri);
++}
++
+ typedef struct {
+   NautilusGtkPlacesSidebar *sidebar;
+   int index;
+@@ -709,6 +749,43 @@
+         }
+     }
+ 
++    /* XDG user directories */
++  /* XDG user directories */
++  if (g_settings_get_boolean (
++          nautilus_preferences,
++          NAUTILUS_PREFERENCES_SHOW_XDG_USER_DIRECTORIES))
++    {
++      add_user_directory_place (sidebar,
++                                G_USER_DIRECTORY_DOCUMENTS,
++                                _("Documents"),
++                                "folder-documents-symbolic",
++                                _("Open the contents of your Documents folder"));
++
++      add_user_directory_place (sidebar,
++                                G_USER_DIRECTORY_DOWNLOAD,
++                                _("Downloads"),
++                                "folder-download-symbolic",
++                                _("Open the contents of your Downloads folder"));
++
++      add_user_directory_place (sidebar,
++                                G_USER_DIRECTORY_PICTURES,
++                                _("Pictures"),
++                                "folder-pictures-symbolic",
++                                _("Open the contents of your Pictures folder"));
++
++      add_user_directory_place (sidebar,
++                                G_USER_DIRECTORY_MUSIC,
++                                _("Music"),
++                                "folder-music-symbolic",
++                                _("Open the contents of your Music folder"));
++
++      add_user_directory_place (sidebar,
++                                G_USER_DIRECTORY_VIDEOS,
++                                _("Videos"),
++                                "folder-videos-symbolic",
++                                _("Open the contents of your Videos folder"));
++    }
++  
+   /* Network view */
+   start_icon = g_themed_icon_new_with_default_fallbacks (ICON_NAME_NETWORK_VIEW);
+   add_place (sidebar, NAUTILUS_GTK_PLACES_BUILT_IN,
+@@ -3427,6 +3504,14 @@
+ }
+ 
+ static void
++show_xdg_user_directories_changed_cb (GSettings                *settings,
++                                      const char               *key,
++                                      NautilusGtkPlacesSidebar *sidebar)
++{
++  update_places (sidebar);
++}
++
++static void
+ nautilus_gtk_places_sidebar_init (NautilusGtkPlacesSidebar *sidebar)
+ {
+   GtkDropTarget *target;
+@@ -3451,7 +3536,13 @@
+   g_signal_connect_object (sidebar->bookmark_list, "changed",
+                            G_CALLBACK (update_places), sidebar,
+                            G_CONNECT_SWAPPED);
+-
++  
++  g_signal_connect_object (nautilus_preferences,
++                           "changed::" NAUTILUS_PREFERENCES_SHOW_XDG_USER_DIRECTORIES,
++                           G_CALLBACK (show_xdg_user_directories_changed_cb),
++                           sidebar,
++                           0);
++    
+   g_signal_connect_object (nautilus_trash_monitor_get (), "trash-state-changed",
+                            G_CALLBACK (update_trash_icon), sidebar,
+                            G_CONNECT_SWAPPED);
