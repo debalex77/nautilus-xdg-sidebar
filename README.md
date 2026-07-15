@@ -1,5 +1,7 @@
 ![Linux](https://img.shields.io/badge/Linux-Debian%2013-red)
 ![GNOME](https://img.shields.io/badge/GNOME-48-4A86CF)
+![License](https://img.shields.io/github/license/debalex77/nautilus-xdg-sidebar)
+![Release](https://img.shields.io/github/v/release/debalex77/nautilus-xdg-sidebar)
 ![Downloads](https://img.shields.io/github/downloads/debalex77/nautilus-xdg-sidebar/total)
 
 # Nautilus XDG Sidebar
@@ -24,14 +26,16 @@ It is not affiliated with, endorsed by, or maintained by the GNOME Project.
 The repository does not redistribute Nautilus source code. During the build process, the official Debian Nautilus source package is downloaded and patched locally.
 
 ## ✨ Features
-Restores XDG user directories as native sidebar locations.
-Adds a new Preferences switch:
-Show user folders in the sidebar
-Sidebar updates immediately when the preference changes.
-Uses a standard Debian source build workflow.
-Produces local Debian packages with a custom version suffix (for example 48.3-2+xdg1).
 
-Supported base:
+- Restores XDG user directories as native sidebar locations.
+- Adds a new **Preferences** switch:
+  - **Show user folders in the sidebar**
+- Updates the sidebar immediately when the preference changes.
+- Uses a standard Debian source build workflow.
+- Produces local Debian packages with a custom version suffix (for example `48.3-2+xdg1`).
+
+## ✅ Supported Version
+
 - Debian 13 (Trixie)
 - Nautilus 48.3-2
 
@@ -52,7 +56,7 @@ sudo apt install build-essential devscripts dpkg-dev fakeroot
 - `build.sh` — downloads the Debian source, applies the patch and builds local packages
 - `install.sh` — installs the matching local packages
 - `verify.sh` — checks package names, versions and architectures
-- `realease.sh` - automates the complete release process.
+- `release.sh` - automates the complete release process.
 
 ## 📦 Build
 
@@ -91,7 +95,7 @@ Then reopen Files. The installer attempts `nautilus -q` for the invoking desktop
 ## 💥 Release
 
 ```bash
-sudo ./release.sh
+./release.sh
 ```
 
 Automates the complete release process.
@@ -118,9 +122,9 @@ A local version such as `48.3-2+xdg1` is newer than `48.3-2`, but older than a f
 ## ⚖️ Licensing
 
 The build scripts and documentation in this repository are licensed under the MIT License.
-
-The included patch contains modifications intended for GNOME Files (Nautilus), which is licensed under the GNU General Public License (GPL). 
-This repository does not redistribute the Nautilus source code. Users download the official Debian source package during the build process.
+The included patch contains modifications intended for GNOME Files (Nautilus), which is licensed under the GNU General Public License (GPL).
+This repository does not redistribute Nautilus source code. Users download the official Debian source package during the build process.
+This project is not affiliated with or endorsed by the GNOME Project.
 
 
 This repository contains build scripts and a patch for GNOME Files (Nautilus).
