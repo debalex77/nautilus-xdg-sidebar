@@ -120,5 +120,3 @@ This repository does not redistribute the Nautilus source code. Users download t
 This repository contains build scripts and a patch for GNOME Files (Nautilus).
 This is an unofficial patch for GNOME Files (Nautilus).
 It is not affiliated with or endorsed by the GNOME Project.
-Nautilus is licensed under the GNU General Public License (GPL).
-This repository does not redistribute Nautilus source code; users download the official Debian source package during the build process.
