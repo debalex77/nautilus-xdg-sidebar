@@ -1,3 +1,7 @@
+![Linux](https://img.shields.io/badge/Linux-Debian%2013-red)
+![GNOME](https://img.shields.io/badge/GNOME-48-4A86CF)
+![Downloads](https://img.shields.io/github/downloads/debalex77/nautilus-xdg-sidebar/total)
+
 # Nautilus XDG Sidebar
 
 Restore native XDG user directories in the GNOME Files (Nautilus) sidebar with a configurable GSettings preference.
