@@ -1,35 +1,48 @@
 # Nautilus XDG Sidebar
 
-Restores Documents, Downloads, Pictures, Music and Videos as native locations in the GNOME Files sidebar and adds a visible GSettings switch.
+Restore native XDG user directories in the GNOME Files (Nautilus) sidebar with a configurable GSettings preference.
+
+The patch restores the following locations as built-in sidebar entries:
+ * Documents
+ * Downloads
+ * Pictures
+ * Music
+ * Videos
+
+Unlike bookmarks, these locations behave as native sidebar entries.
+
+## ✨ Features
+Restores XDG user directories as native sidebar locations.
+Adds a new Preferences switch:
+Show user folders in the sidebar
+Sidebar updates immediately when the preference changes.
+Uses a standard Debian source build workflow.
+Produces local Debian packages with a custom version suffix (for example 48.3-2+xdg1).
 
 Supported base:
 - Debian 13 (Trixie)
 - Nautilus 48.3-2
 
-## Files
+## ⚠️ Requirements
+
+Enable Debian source repositories (deb-src).
+
+Install the required tools:
+
+```
+sudo apt update
+sudo apt install build-essential devscripts dpkg-dev fakeroot
+```
+
+## 📚 Files
 
 - `nautilus-xdg-sidebar.patch` — your patch
 - `build.sh` — downloads the Debian source, applies the patch and builds local packages
 - `install.sh` — installs the matching local packages
 - `verify.sh` — checks package names, versions and architectures
+- `realease.sh` - automates the complete release process.
 
-## Prepare
-
-Copy your patch over the placeholder:
-
-```bash
-cp ~/src/nautilus-xdg-sidebar.patch ./nautilus-xdg-sidebar.patch
-chmod +x build.sh install.sh verify.sh
-```
-
-Enable `deb-src`, then:
-
-```bash
-sudo apt update
-sudo apt install build-essential devscripts dpkg-dev fakeroot
-```
-
-## Build
+## 📦 Build
 
 ```bash
 ./build.sh
@@ -49,13 +62,13 @@ LOCAL_SUFFIX=+xdg2 ./build.sh
 
 Packages are copied into `dist/`.
 
-## Verify
+## ✔️ Verify
 
 ```bash
 ./verify.sh
 ```
 
-## Install
+## 🔧 Install
 
 ```bash
 sudo ./install.sh
@@ -63,7 +76,24 @@ sudo ./install.sh
 
 Then reopen Files. The installer attempts `nautilus -q` for the invoking desktop user.
 
-## GSettings
+## 💥 Release
+
+```bash
+sudo ./release.sh
+```
+
+Automates the complete release process.
+It performs the following steps:
+
+ * Runs build.sh
+ * Verifies the generated packages
+ * Installs the packages
+ * Generates SHA256SUMS
+ * Creates CHANGELOG.md
+ * Copies all generated packages into release/
+ * Creates a release archive (tar.gz)
+
+## ⚙️ GSettings
 
 ```bash
 gsettings get org.gnome.nautilus.preferences show-xdg-user-directories
