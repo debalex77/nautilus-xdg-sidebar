@@ -19,6 +19,7 @@ Unlike bookmarks, these locations behave as native sidebar entries.
 
 <img width="907" height="249" alt="2026-07-15_23-35" src="https://github.com/user-attachments/assets/1f7d3018-37c6-4d4c-9d6c-6da1f6926771" />
 
+
 <img width="910" height="445" alt="2026-07-15_23-34" src="https://github.com/user-attachments/assets/b9518c56-f08d-45af-a8a8-6d84ac20e8f5" />
 
 ## ⚠️ Disclaimer
