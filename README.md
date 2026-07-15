@@ -17,7 +17,6 @@ Unlike bookmarks, these locations behave as native sidebar entries.
 
 <img width="637" height="99" alt="2026-07-15_21-43" src="https://github.com/user-attachments/assets/d6b00bb7-6055-4983-98d9-be81d23b2028" />
 
-
 ## ✨ Features
 Restores XDG user directories as native sidebar locations.
 Adds a new Preferences switch:
@@ -109,3 +108,17 @@ gsettings set org.gnome.nautilus.preferences show-xdg-user-directories true
 ```
 
 A local version such as `48.3-2+xdg1` is newer than `48.3-2`, but older than a future `48.3-3`.
+
+## ⚖️ Licensing
+
+The build scripts and documentation in this repository are licensed under the MIT License.
+
+The included patch contains modifications intended for GNOME Files (Nautilus), which is licensed under the GNU General Public License (GPL). 
+This repository does not redistribute the Nautilus source code. Users download the official Debian source package during the build process.
+
+
+This repository contains build scripts and a patch for GNOME Files (Nautilus).
+This is an unofficial patch for GNOME Files (Nautilus).
+It is not affiliated with or endorsed by the GNOME Project.
+Nautilus is licensed under the GNU General Public License (GPL).
+This repository does not redistribute Nautilus source code; users download the official Debian source package during the build process.
