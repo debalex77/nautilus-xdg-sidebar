@@ -37,6 +37,17 @@ The repository does not redistribute Nautilus source code. During the build proc
 - Uses a standard Debian source build workflow.
 - Produces local Debian packages with a custom version suffix (for example `48.3-2+xdg1`).
 
+## 💡 Motivation
+
+Recent versions of GNOME Files (Nautilus) no longer display the standard XDG user directories (Documents, Downloads, Pictures, Music and Videos) as native sidebar locations.
+
+For many users, these directories are part of their daily workflow and are expected to behave as built-in locations rather than bookmarks.
+
+This project restores that functionality while keeping it fully optional through a new preference:
+ * **Show user folders in the sidebar**
+
+The goal is not to change the default GNOME experience, but to provide an easy-to-maintain alternative for users who prefer the traditional sidebar layout.
+
 ## ✅ Supported Version
 
 - Debian 13 (Trixie)
