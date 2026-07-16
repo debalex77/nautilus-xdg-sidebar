@@ -112,16 +112,15 @@ Then reopen Files. The installer attempts `nautilus -q` for the invoking desktop
 ./release.sh
 ```
 
-Automates the complete release process.
-It performs the following steps:
+The script automates the complete release process by:
 
- * Runs build.sh
- * Verifies the generated packages
- * Installs the packages
- * Generates SHA256SUMS
- * Creates CHANGELOG.md
- * Copies all generated packages into release/
- * Creates a release archive (tar.gz)
+- Running `build.sh`
+- Verifying the generated packages
+- Installing the packages
+- Generating `SHA256SUMS`
+- Creating `CHANGELOG.md`
+- Copying all generated packages into `release/`
+- Creating a release archive (`tar.gz`)
 
 ## ⚙️ GSettings
 
@@ -139,8 +138,3 @@ The build scripts and documentation in this repository are licensed under the MI
 The included patch contains modifications intended for GNOME Files (Nautilus), which is licensed under the GNU General Public License (GPL).
 This repository does not redistribute Nautilus source code. Users download the official Debian source package during the build process.
 This project is not affiliated with or endorsed by the GNOME Project.
-
-
-This repository contains build scripts and a patch for GNOME Files (Nautilus).
-This is an unofficial patch for GNOME Files (Nautilus).
-It is not affiliated with or endorsed by the GNOME Project.
