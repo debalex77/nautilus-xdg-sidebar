@@ -2,7 +2,7 @@
 ![GNOME](https://img.shields.io/badge/GNOME-48-4A86CF)
 ![License](https://img.shields.io/github/license/debalex77/nautilus-xdg-sidebar)
 ![Release](https://img.shields.io/github/v/release/debalex77/nautilus-xdg-sidebar)
-![Downloads](https://img.shields.io/github/downloads/debalex77/nautilus-xdg-sidebar/total)
+[![GitHub Downloads](https://img.shields.io/github/downloads/debalex77/nautilus-xdg-sidebar/total)](https://github.com/debalex77/nautilus-xdg-sidebar/releases)
 
 # Nautilus XDG Sidebar
 
